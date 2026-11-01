@@ -2,515 +2,366 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Component Profit Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Component Profit Calculator</title>
 
-  <style>
-    :root {
-      --bg: #f5f3ee;
-      --card: #fffefa;
-      --text: #343b35;
-      --muted: #858c83;
-      --green: #67816d;
-      --green-dark: #506b56;
-      --light: #eaf0e8;
-      --border: #e8e5dc;
-      --red: #c46e65;
-      --shadow: 0 8px 28px rgba(65, 76, 63, .07);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 25px 15px 45px;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, sans-serif;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 950px;
-      margin: auto;
-    }
-
-    header {
-      margin-bottom: 25px;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 7px 12px;
-      background: var(--light);
-      color: var(--green-dark);
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-    h1 {
-      font-size: 30px;
-      margin: 0 0 8px;
-    }
-
-    header p {
-      color: var(--muted);
-      margin: 0;
-      line-height: 1.6;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .card {
-      background: var(--card);
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .card h2 {
-      font-size: 17px;
-      margin: 0 0 18px;
-    }
-
-    .field {
-      margin-bottom: 16px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    input {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid var(--border);
-      background: #fff;
-      border-radius: 10px;
-      outline: none;
-      font-size: 15px;
-      color: var(--text);
-    }
-
-    input:focus {
-      border-color: var(--green);
-    }
-
-    .hint {
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 6px;
-    }
-
-    .button {
-      border: none;
-      border-radius: 10px;
-      padding: 13px 16px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .button:hover {
-      opacity: .88;
-      transform: translateY(-1px);
-    }
-
-    .primary {
-      background: var(--green);
-      color: white;
-      width: 100%;
-    }
-
-    .secondary {
-      background: var(--light);
-      color: var(--green-dark);
-    }
-
-    .danger {
-      background: #f8e9e6;
-      color: var(--red);
-    }
-
-    .button-row {
-      display: flex;
-      gap: 9px;
-      margin-top: 12px;
-    }
-
-    .button-row button {
-      flex: 1;
-    }
-
-    .result {
-      margin-top: 17px;
-      padding: 17px;
-      background: var(--light);
-      border-radius: 13px;
-    }
-
-    .result-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 9px 0;
-      font-size: 13px;
-      border-bottom: 1px solid rgba(103,129,109,.15);
-    }
-
-    .result-row:last-child {
-      border: none;
-    }
-
-    .profit-box {
-      margin-top: 13px;
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-    }
-
-    .profit-box span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 7px;
-    }
-
-    .profit-box strong {
-      color: var(--green-dark);
-      font-size: 25px;
-    }
-
-    .history {
-      margin-top: 20px;
-    }
-
-    .history-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .history-header h2 {
-      margin: 0;
-    }
-
-    .history-item {
-      padding: 15px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 10px;
-      background: #fff;
-    }
-
-    .history-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 9px;
-    }
-
-    .history-top strong {
-      font-size: 14px;
-    }
-
-    .history-top small {
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .history-details {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 18px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .history-profit {
-      color: var(--green-dark);
-      font-weight: bold;
-    }
-
-    .empty {
-      text-align: center;
-      color: var(--muted);
-      padding: 28px 10px;
-      font-size: 13px;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 10;
-      background: rgba(35, 43, 36, .45);
-      padding: 18px;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .modal-content {
-      background: var(--card);
-      padding: 23px;
-      border-radius: 18px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: var(--shadow);
-    }
-
-    .modal-content h2 {
-      margin-top: 0;
-    }
-
-    .modal-content p {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .modal-summary {
-      background: var(--light);
-      border-radius: 12px;
-      padding: 14px;
-      margin: 15px 0;
-    }
-
-    .modal-summary div {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 7px 0;
-      font-size: 13px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .modal-actions button {
-      flex: 1;
-    }
-
-    .calculator-display {
-      width: 100%;
-      padding: 15px;
-      margin-bottom: 12px;
-      border-radius: 10px;
-      background: var(--light);
-      text-align: right;
-      font-size: 23px;
-      font-weight: bold;
-      min-height: 55px;
-      overflow: hidden;
-    }
-
-    .calc-buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-
-    .calc-buttons button {
-      padding: 15px 5px;
-      border: none;
-      border-radius: 9px;
-      background: #f0eee8;
-      font-size: 16px;
-      cursor: pointer;
-      color: var(--text);
-    }
-
-    .calc-buttons button.operator {
-      background: var(--light);
-      color: var(--green-dark);
-      font-weight: bold;
-    }
-
-    .calc-buttons button.equal {
-      background: var(--green);
-      color: white;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 25px;
-    }
-
-    @media (max-width: 700px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 25px;
-      }
-
-      .card {
-        padding: 18px;
-      }
-    }
-  </style>
+<style>
+:root {
+  --bg:#f5f3ee;
+  --card:#fffefa;
+  --text:#343b35;
+  --muted:#858c83;
+  --green:#67816d;
+  --green-dark:#506b56;
+  --light:#eaf0e8;
+  --border:#e8e5dc;
+  --red:#c46e65;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  padding:25px 15px 45px;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+}
+.container {max-width:950px;margin:auto}
+header {margin-bottom:25px}
+.tag {
+  display:inline-block;
+  padding:7px 12px;
+  background:var(--light);
+  color:var(--green-dark);
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:12px;
+}
+h1 {font-size:30px;margin:0 0 8px}
+header p {color:var(--muted);line-height:1.6;margin:0}
+.grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+.card {
+  background:var(--card);
+  padding:22px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:0 8px 28px rgba(65,76,63,.07);
+}
+.card h2 {font-size:17px;margin:0 0 18px}
+.field {margin-bottom:16px}
+label {
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+input {
+  width:100%;
+  padding:13px;
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:10px;
+  outline:none;
+  font-size:15px;
+  color:var(--text);
+}
+input:focus {border-color:var(--green)}
+.hint {color:var(--muted);font-size:11px;margin-top:6px}
+.button {
+  border:none;
+  border-radius:10px;
+  padding:13px 16px;
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.primary {background:var(--green);color:white;width:100%}
+.secondary {background:var(--light);color:var(--green-dark)}
+.danger {background:#f8e9e6;color:var(--red)}
+.button-row {display:flex;gap:9px;margin-top:12px}
+.button-row button {flex:1}
+.result {
+  margin-top:17px;
+  padding:17px;
+  background:var(--light);
+  border-radius:13px;
+}
+.result-row {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:9px 0;
+  font-size:13px;
+  border-bottom:1px solid rgba(103,129,109,.15);
+}
+.result-row:last-child {border:none}
+.profit-box {
+  margin-top:13px;
+  background:white;
+  padding:15px;
+  border-radius:12px;
+}
+.profit-box span {
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:7px;
+}
+.profit-box strong {
+  color:var(--green-dark);
+  font-size:25px;
+}
+.history {margin-top:20px}
+.history-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+.history-header h2 {margin:0}
+.history-item {
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  margin-bottom:10px;
+  background:#fff;
+}
+.history-top {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:9px;
+}
+.history-top strong {font-size:14px}
+.history-top small {color:var(--muted);font-size:11px}
+.history-details {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 18px;
+  font-size:12px;
+  color:var(--muted);
+}
+.history-profit {color:var(--green-dark);font-weight:bold}
+.empty {
+  text-align:center;
+  color:var(--muted);
+  padding:28px 10px;
+  font-size:13px;
+}
+.modal {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:10;
+  background:rgba(35,43,36,.45);
+  padding:18px;
+  align-items:center;
+  justify-content:center;
+}
+.modal.show {display:flex}
+.modal-content {
+  background:var(--card);
+  padding:23px;
+  border-radius:18px;
+  width:100%;
+  max-width:420px;
+}
+.modal-content h2 {margin-top:0}
+.modal-content p {color:var(--muted);font-size:13px;line-height:1.5}
+.modal-summary {
+  background:var(--light);
+  border-radius:12px;
+  padding:14px;
+  margin:15px 0;
+}
+.modal-summary div {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:7px 0;
+  font-size:13px;
+}
+.modal-actions {display:flex;gap:10px}
+.modal-actions button {flex:1}
+.calculator-display {
+  width:100%;
+  padding:15px;
+  margin-bottom:12px;
+  border-radius:10px;
+  background:var(--light);
+  text-align:right;
+  font-size:23px;
+  font-weight:bold;
+  min-height:55px;
+  overflow:hidden;
+}
+.calc-buttons {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+.calc-buttons button {
+  padding:15px 5px;
+  border:none;
+  border-radius:9px;
+  background:#f0eee8;
+  font-size:16px;
+  cursor:pointer;
+  color:var(--text);
+}
+.calc-buttons button.operator {
+  background:var(--light);
+  color:var(--green-dark);
+  font-weight:bold;
+}
+.calc-buttons button.equal {background:var(--green);color:white}
+footer {
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:25px;
+}
+@media(max-width:700px) {
+  .grid {grid-template-columns:1fr}
+  h1 {font-size:25px}
+  .card {padding:18px}
+}
+</style>
 </head>
 
 <body>
-
 <div class="container">
 
-  <header>
-    <div class="tag">COMPONENT MANAGEMENT</div>
-    <h1>Profit Calculator</h1>
-    <p>Hitung modal, omzet, dan keuntungan komponen dengan mudah.</p>
-  </header>
+<header>
+  <div class="tag">COMPONENT MANAGEMENT</div>
+  <h1>Profit Calculator</h1>
+  <p>Hitung modal, omzet, dan keuntungan komponen dengan mudah.</p>
+</header>
 
-  <div class="grid">
+<div class="grid">
 
-    <!-- KALKULATOR MODAL -->
-    <section class="card">
-      <h2>Perhitungan Komponen</h2>
+<section class="card">
+  <h2>Perhitungan Komponen</h2>
 
-      <div class="field">
-        <label>Jumlah Komponen</label>
-        <input id="qty" type="number" min="1" value="100">
-      </div>
-
-      <div class="field">
-        <label>Modal per Komponen ($)</label>
-        <input id="cost" type="number" min="0" step="0.01" value="0.60">
-      </div>
-
-      <div class="field">
-        <label>Harga Jual / Pemakaian ($)</label>
-        <input id="sell" type="number" min="0" step="0.01" value="1.05">
-      </div>
-
-      <div class="field">
-        <label>Biaya Tambahan ($)</label>
-        <input id="extra" type="number" min="0" step="0.01" value="0">
-        <div class="hint">Contoh: biaya layanan atau biaya lainnya.</div>
-      </div>
-
-      <button class="button primary" onclick="calculate()">
-        Hitung Keuntungan
-      </button>
-
-      <div class="result" id="result" style="display:none;">
-        <div class="result-row">
-          <span>Total Modal</span>
-          <strong id="totalCost">$0.00</strong>
-        </div>
-
-        <div class="result-row">
-          <span>Total Omzet</span>
-          <strong id="revenue">$0.00</strong>
-        </div>
-
-        <div class="result-row">
-          <span>Keuntungan per Komponen</span>
-          <strong id="unitProfit">$0.00</strong>
-        </div>
-
-        <div class="result-row">
-          <span>Margin Keuntungan</span>
-          <strong id="margin">0%</strong>
-        </div>
-
-        <div class="profit-box">
-          <span>Total Keuntungan Bersih</span>
-          <strong id="profit">$0.00</strong>
-        </div>
-
-        <div class="button-row">
-          <button class="button secondary" onclick="copyResult()">
-            Salin Hasil
-          </button>
-          <button class="button secondary" onclick="openConfirm()">
-            Konfirmasi
-          </button>
-        </div>
-      </div>
-
-      <div style="margin-top:12px;">
-        <button class="button danger" style="width:100%;" onclick="resetCalc()">
-          Reset Kalkulator
-        </button>
-      </div>
-    </section>
-
-    <!-- KALKULATOR BIASA -->
-    <section class="card">
-      <h2>Kalkulator Tambahan</h2>
-
-      <div class="calculator-display" id="calcDisplay">0</div>
-
-      <div class="calc-buttons">
-        <button onclick="calcClear()">AC</button>
-        <button onclick="calcDelete()">DEL</button>
-        <button class="operator" onclick="calcInput('%')">%</button>
-        <button class="operator" onclick="calcInput('/')">÷</button>
-
-        <button onclick="calcInput('7')">7</button>
-        <button onclick="calcInput('8')">8</button>
-        <button onclick="calcInput('9')">9</button>
-        <button class="operator" onclick="calcInput('*')">×</button>
-
-        <button onclick="calcInput('4')">4</button>
-        <button onclick="calcInput('5')">5</button>
-        <button onclick="calcInput('6')">6</button>
-        <button class="operator" onclick="calcInput('-')">−</button>
-
-        <button onclick="calcInput('1')">1</button>
-        <button onclick="calcInput('2')">2</button>
-        <button onclick="calcInput('3')">3</button>
-        <button class="operator" onclick="calcInput('+')">+</button>
-
-        <button onclick="calcInput('0')">0</button>
-        <button onclick="calcInput('.')">.</button>
-        <button onclick="calcClear()">C</button>
-        <button class="equal" onclick="calcEqual()">=</button>
-      </div>
-    </section>
-
+  <div class="field">
+    <label>Jumlah Komponen</label>
+    <input id="qty" type="number" min="1" value="64">
   </div>
 
-  <!-- RIWAYAT -->
-  <section class="card history">
-    <div class="history-header">
-      <h2>Riwayat Perhitungan</h2>
-      <button class="button danger" onclick="clearLogs()">
-        Hapus Semua
-      </button>
+  <div class="field">
+    <label>Modal per Komponen ($)</label>
+    <input id="cost" type="number" min="0" step="0.01" value="0.60">
+  </div>
+
+  <div class="field">
+    <label>Harga Jual per Komponen ($)</label>
+    <input id="sell" type="number" min="0" step="0.01" value="0.90">
+    <div class="hint">Harga jual default sudah diubah menjadi $0.90.</div>
+  </div>
+
+  <div class="field">
+    <label>Biaya Tambahan ($)</label>
+    <input id="extra" type="number" min="0" step="0.01" value="0">
+  </div>
+
+  <button class="button primary" onclick="calculate()">
+    Hitung Keuntungan
+  </button>
+
+  <div class="result" id="result" style="display:none">
+    <div class="result-row">
+      <span>Modal per Komponen</span>
+      <strong id="unitCost">$0.00</strong>
+    </div>
+    <div class="result-row">
+      <span>Harga Jual per Komponen</span>
+      <strong id="unitSell">$0.00</strong>
+    </div>
+    <div class="result-row">
+      <span>Total Modal</span>
+      <strong id="totalCost">$0.00</strong>
+    </div>
+    <div class="result-row">
+      <span>Total Omzet</span>
+      <strong id="revenue">$0.00</strong>
+    </div>
+    <div class="result-row">
+      <span>Keuntungan per Komponen</span>
+      <strong id="unitProfit">$0.00</strong>
+    </div>
+    <div class="result-row">
+      <span>Margin Keuntungan</span>
+      <strong id="margin">0%</strong>
+    </div>
+    <div class="profit-box">
+      <span>Total Keuntungan Bersih</span>
+      <strong id="profit">$0.00</strong>
     </div>
 
-    <div id="historyList"></div>
-  </section>
+    <div class="button-row">
+      <button class="button secondary" onclick="copyResult()">Salin Hasil</button>
+      <button class="button secondary" onclick="openConfirm()">Konfirmasi</button>
+    </div>
+  </div>
 
-  <footer>
-    Component Profit Calculator · Data tersimpan di perangkat ini
-  </footer>
+  <div style="margin-top:12px">
+    <button class="button danger" style="width:100%" onclick="resetCalc()">
+      Reset Kalkulator
+    </button>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Kalkulator Tambahan</h2>
+  <div class="calculator-display" id="calcDisplay">0</div>
+
+  <div class="calc-buttons">
+    <button onclick="calcClear()">AC</button>
+    <button onclick="calcDelete()">DEL</button>
+    <button class="operator" onclick="calcInput('%')">%</button>
+    <button class="operator" onclick="calcInput('/')">÷</button>
+
+    <button onclick="calcInput('7')">7</button>
+    <button onclick="calcInput('8')">8</button>
+    <button onclick="calcInput('9')">9</button>
+    <button class="operator" onclick="calcInput('*')">×</button>
+
+    <button onclick="calcInput('4')">4</button>
+    <button onclick="calcInput('5')">5</button>
+    <button onclick="calcInput('6')">6</button>
+    <button class="operator" onclick="calcInput('-')">−</button>
+
+    <button onclick="calcInput('1')">1</button>
+    <button onclick="calcInput('2')">2</button>
+    <button onclick="calcInput('3')">3</button>
+    <button class="operator" onclick="calcInput('+')">+</button>
+
+    <button onclick="calcInput('0')">0</button>
+    <button onclick="calcInput('.')">.</button>
+    <button onclick="calcClear()">C</button>
+    <button class="equal" onclick="calcEqual()">=</button>
+  </div>
+</section>
+
+</div>
+
+<section class="card history">
+  <div class="history-header">
+    <h2>Riwayat Perhitungan</h2>
+    <button class="button danger" onclick="clearLogs()">Hapus Semua</button>
+  </div>
+  <div id="historyList"></div>
+</section>
+
+<footer>
+  Component Profit Calculator · Data tersimpan di perangkat ini
+</footer>
 
 </div>
 
@@ -518,327 +369,328 @@
 <div class="modal" id="confirmModal">
   <div class="modal-content">
     <h2>Konfirmasi Perhitungan</h2>
-    <p>Pastikan data perhitungan sudah benar sebelum disimpan.</p>
+    <p>Pastikan semua data sudah benar sebelum disimpan.</p>
 
     <div class="modal-summary">
       <div><span>Jumlah</span><strong id="confirmQty">0</strong></div>
+      <div><span>Modal / Komponen</span><strong id="confirmUnitCost">$0.00</strong></div>
+      <div><span>Jual / Komponen</span><strong id="confirmUnitSell">$0.00</strong></div>
       <div><span>Total Modal</span><strong id="confirmCost">$0.00</strong></div>
       <div><span>Total Omzet</span><strong id="confirmRevenue">$0.00</strong></div>
       <div><span>Keuntungan</span><strong id="confirmProfit">$0.00</strong></div>
     </div>
 
     <div class="modal-actions">
-      <button class="button secondary" onclick="closeConfirm()">
-        Kembali
-      </button>
-      <button class="button primary" onclick="saveLog()">
-        Simpan Data
-      </button>
+      <button class="button secondary" onclick="closeConfirm()">Kembali</button>
+      <button class="button primary" onclick="saveLog()">Simpan Data</button>
     </div>
   </div>
 </div>
 
 <script>
-  // ==============================
-  // LOCAL STORAGE
-  // ==============================
+// ==================================
+// LOCAL STORAGE
+// ==================================
 
-  const STORAGE_KEY = "profitLogs";
+const STORAGE_KEY = "profitLogs";
 
-  let logs = [];
+let logs = [];
 
-  try {
-    const savedLogs = localStorage.getItem(STORAGE_KEY);
-    const parsedLogs = savedLogs ? JSON.parse(savedLogs) : [];
-    logs = Array.isArray(parsedLogs) ? parsedLogs : [];
-  } catch (error) {
+try {
+  const savedLogs = localStorage.getItem(STORAGE_KEY);
+  const parsedLogs = savedLogs ? JSON.parse(savedLogs) : [];
+  logs = Array.isArray(parsedLogs) ? parsedLogs : [];
+} catch (error) {
+  logs = [];
+}
+
+function saveLogs() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
+}
+
+// ==================================
+// FORMAT DOLLAR
+// ==================================
+
+function money(value) {
+  return "$" + Number(value).toFixed(2);
+}
+
+// ==================================
+// HITUNG KEUNTUNGAN
+// ==================================
+
+let currentCalculation = null;
+
+function calculate() {
+  const qty = Number(document.getElementById("qty").value);
+  const cost = Number(document.getElementById("cost").value);
+  const sell = Number(document.getElementById("sell").value);
+  const extra = Number(document.getElementById("extra").value);
+
+  if (
+    !Number.isInteger(qty) || qty <= 0 ||
+    !Number.isFinite(cost) || cost < 0 ||
+    !Number.isFinite(sell) || sell < 0 ||
+    !Number.isFinite(extra) || extra < 0
+  ) {
+    alert("Masukkan jumlah dan nominal yang valid.");
+    return;
+  }
+
+  const totalCost = qty * cost + extra;
+  const revenue = qty * sell;
+  const profit = revenue - totalCost;
+  const unitProfit = profit / qty;
+  const margin = revenue > 0 ? profit / revenue * 100 : 0;
+
+  currentCalculation = {
+    qty,
+    cost,
+    sell,
+    extra,
+    totalCost,
+    revenue,
+    profit,
+    unitProfit,
+    margin
+  };
+
+  document.getElementById("unitCost").textContent = money(cost);
+  document.getElementById("unitSell").textContent = money(sell);
+  document.getElementById("totalCost").textContent = money(totalCost);
+  document.getElementById("revenue").textContent = money(revenue);
+  document.getElementById("unitProfit").textContent = money(unitProfit);
+  document.getElementById("margin").textContent = margin.toFixed(2) + "%";
+  document.getElementById("profit").textContent = money(profit);
+
+  document.getElementById("result").style.display = "block";
+}
+
+// ==================================
+// MODAL KONFIRMASI
+// ==================================
+
+function openConfirm() {
+  if (!currentCalculation) {
+    alert("Hitung terlebih dahulu.");
+    return;
+  }
+
+  const d = currentCalculation;
+
+  document.getElementById("confirmQty").textContent = d.qty;
+  document.getElementById("confirmUnitCost").textContent = money(d.cost);
+  document.getElementById("confirmUnitSell").textContent = money(d.sell);
+  document.getElementById("confirmCost").textContent = money(d.totalCost);
+  document.getElementById("confirmRevenue").textContent = money(d.revenue);
+  document.getElementById("confirmProfit").textContent = money(d.profit);
+
+  document.getElementById("confirmModal").classList.add("show");
+}
+
+function closeConfirm() {
+  document.getElementById("confirmModal").classList.remove("show");
+}
+
+// ==================================
+// SIMPAN RIWAYAT
+// ==================================
+
+function saveLog() {
+  if (!currentCalculation) return;
+
+  logs.unshift({
+    id: Date.now(),
+    date: new Date().toLocaleString("id-ID"),
+    ...currentCalculation
+  });
+
+  saveLogs();
+  renderLogs();
+  closeConfirm();
+  resetCalc();
+
+  alert("Data berhasil disimpan!");
+}
+
+// ==================================
+// TAMPILKAN RIWAYAT
+// ==================================
+
+function renderLogs() {
+  const container = document.getElementById("historyList");
+
+  if (logs.length === 0) {
+    container.innerHTML = `
+      <div class="empty">Belum ada riwayat perhitungan.</div>
+    `;
+    return;
+  }
+
+  container.innerHTML = logs.map(item => `
+    <div class="history-item">
+      <div class="history-top">
+        <strong>${Number(item.qty).toLocaleString("id-ID")} Komponen</strong>
+        <small>${escapeHTML(item.date)}</small>
+      </div>
+
+      <div class="history-details">
+        <span>Modal/unit: ${money(item.cost)}</span>
+        <span>Jual/unit: ${money(item.sell)}</span>
+        <span>Modal: ${money(item.totalCost)}</span>
+        <span>Omzet: ${money(item.revenue)}</span>
+        <span class="history-profit">
+          Untung: ${money(item.profit)}
+        </span>
+      </div>
+    </div>
+  `).join("");
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+// ==================================
+// HAPUS RIWAYAT
+// ==================================
+
+function clearLogs() {
+  if (logs.length === 0) {
+    alert("Belum ada riwayat untuk dihapus.");
+    return;
+  }
+
+  if (confirm("Yakin ingin menghapus semua riwayat?")) {
     logs = [];
-  }
-
-  function saveLogs() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
-  }
-
-  // ==============================
-  // FORMAT DOLLAR
-  // ==============================
-
-  function money(value) {
-    return "$" + Number(value).toFixed(2);
-  }
-
-  // ==============================
-  // KALKULATOR KEUNTUNGAN
-  // ==============================
-
-  let currentCalculation = null;
-
-  function calculate() {
-    const qty = Number(document.getElementById("qty").value);
-    const cost = Number(document.getElementById("cost").value);
-    const sell = Number(document.getElementById("sell").value);
-    const extra = Number(document.getElementById("extra").value);
-
-    if (
-      !Number.isInteger(qty) || qty <= 0 ||
-      !Number.isFinite(cost) || cost < 0 ||
-      !Number.isFinite(sell) || sell < 0 ||
-      !Number.isFinite(extra) || extra < 0
-    ) {
-      alert("Masukkan jumlah dan nominal yang valid.");
-      return;
-    }
-
-    const totalCost = (qty * cost) + extra;
-    const revenue = qty * sell;
-    const profit = revenue - totalCost;
-    const unitProfit = profit / qty;
-    const margin = revenue > 0 ? (profit / revenue) * 100 : 0;
-
-    currentCalculation = {
-      qty,
-      cost,
-      sell,
-      extra,
-      totalCost,
-      revenue,
-      profit,
-      unitProfit,
-      margin
-    };
-
-    document.getElementById("totalCost").textContent = money(totalCost);
-    document.getElementById("revenue").textContent = money(revenue);
-    document.getElementById("unitProfit").textContent = money(unitProfit);
-    document.getElementById("margin").textContent = margin.toFixed(2) + "%";
-    document.getElementById("profit").textContent = money(profit);
-
-    document.getElementById("result").style.display = "block";
-  }
-
-  // ==============================
-  // KONFIRMASI
-  // ==============================
-
-  function openConfirm() {
-    if (!currentCalculation) {
-      alert("Hitung terlebih dahulu.");
-      return;
-    }
-
-    const data = currentCalculation;
-
-    document.getElementById("confirmQty").textContent = data.qty;
-    document.getElementById("confirmCost").textContent = money(data.totalCost);
-    document.getElementById("confirmRevenue").textContent = money(data.revenue);
-    document.getElementById("confirmProfit").textContent = money(data.profit);
-
-    document.getElementById("confirmModal").classList.add("show");
-  }
-
-  function closeConfirm() {
-    document.getElementById("confirmModal").classList.remove("show");
-  }
-
-  // ==============================
-  // SIMPAN RIWAYAT
-  // ==============================
-
-  function saveLog() {
-    if (!currentCalculation) return;
-
-    const data = {
-      id: Date.now(),
-      date: new Date().toLocaleString("id-ID"),
-      ...currentCalculation
-    };
-
-    logs.unshift(data);
-
     saveLogs();
     renderLogs();
-    closeConfirm();
-    resetCalc();
-
-    alert("Data berhasil disimpan!");
   }
+}
 
-  // ==============================
-  // TAMPILKAN RIWAYAT
-  // ==============================
+// ==================================
+// RESET KALKULATOR
+// ==================================
 
-  function renderLogs() {
-    const container = document.getElementById("historyList");
+function resetCalc() {
+  document.getElementById("qty").value = 64;
+  document.getElementById("cost").value = 0.60;
+  document.getElementById("sell").value = 0.90;
+  document.getElementById("extra").value = 0;
 
-    if (logs.length === 0) {
-      container.innerHTML = `
-        <div class="empty">
-          Belum ada riwayat perhitungan.
-        </div>
-      `;
-      return;
-    }
+  document.getElementById("result").style.display = "none";
+  currentCalculation = null;
+}
 
-    container.innerHTML = logs.map(item => `
-      <div class="history-item">
-        <div class="history-top">
-          <strong>${item.qty.toLocaleString("id-ID")} Komponen</strong>
-          <small>${escapeHTML(item.date)}</small>
-        </div>
+// ==================================
+// SALIN HASIL
+// ==================================
 
-        <div class="history-details">
-          <span>Modal: ${money(item.totalCost)}</span>
-          <span>Omzet: ${money(item.revenue)}</span>
-          <span class="history-profit">
-            Untung: ${money(item.profit)}
-          </span>
-        </div>
-      </div>
-    `).join("");
-  }
+function copyResult() {
+  if (!currentCalculation) return;
 
-  // Mencegah teks tanggal dimasukkan sebagai HTML.
-  function escapeHTML(value) {
-    return String(value).replace(/[&<>"']/g, char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    })[char]);
-  }
+  const d = currentCalculation;
 
-  // ==============================
-  // HAPUS RIWAYAT
-  // ==============================
+  const text = [
+    "COMPONENT PROFIT REPORT",
+    "Jumlah: " + d.qty,
+    "Modal per komponen: " + money(d.cost),
+    "Harga jual per komponen: " + money(d.sell),
+    "Total modal: " + money(d.totalCost),
+    "Total omzet: " + money(d.revenue),
+    "Keuntungan: " + money(d.profit),
+    "Margin: " + d.margin.toFixed(2) + "%"
+  ].join("\n");
 
-  function clearLogs() {
-    if (logs.length === 0) {
-      alert("Belum ada riwayat untuk dihapus.");
-      return;
-    }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text)
+      .then(() => alert("Hasil berhasil disalin!"))
+      .catch(() => alert("Tidak dapat menyalin hasil."));
+  } else {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
 
-    if (confirm("Yakin ingin menghapus semua riwayat?")) {
-      logs = [];
-      saveLogs();
-      renderLogs();
-    }
-  }
-
-  // ==============================
-  // RESET KALKULATOR
-  // ==============================
-
-  function resetCalc() {
-    document.getElementById("qty").value = 100;
-    document.getElementById("cost").value = 0.60;
-    document.getElementById("sell").value = 1.05;
-    document.getElementById("extra").value = 0;
-
-    document.getElementById("result").style.display = "none";
-
-    currentCalculation = null;
-  }
-
-  // ==============================
-  // SALIN HASIL
-  // ==============================
-
-  function copyResult() {
-    if (!currentCalculation) return;
-
-    const d = currentCalculation;
-
-    const text = [
-      "COMPONENT PROFIT REPORT",
-      "Jumlah: " + d.qty,
-      "Modal: " + money(d.totalCost),
-      "Omzet: " + money(d.revenue),
-      "Keuntungan: " + money(d.profit),
-      "Margin: " + d.margin.toFixed(2) + "%"
-    ].join("\n");
-
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text)
-        .then(() => alert("Hasil berhasil disalin!"))
-        .catch(() => alert("Tidak dapat menyalin hasil."));
-    } else {
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      document.body.appendChild(textarea);
-      textarea.select();
-
-      try {
-        document.execCommand("copy");
-        alert("Hasil berhasil disalin!");
-      } catch (error) {
-        alert("Tidak dapat menyalin hasil.");
-      }
-
-      textarea.remove();
-    }
-  }
-
-  // ==============================
-  // KALKULATOR TAMBAHAN
-  // ==============================
-
-  let calcValue = "0";
-
-  function updateDisplay() {
-    document.getElementById("calcDisplay").textContent = calcValue;
-  }
-
-  function calcInput(value) {
-    if (calcValue === "0" && /[0-9.]/.test(value)) {
-      calcValue = value;
-    } else {
-      calcValue += value;
-    }
-
-    updateDisplay();
-  }
-
-  function calcClear() {
-    calcValue = "0";
-    updateDisplay();
-  }
-
-  function calcDelete() {
-    calcValue = calcValue.slice(0, -1) || "0";
-    updateDisplay();
-  }
-
-  function calcEqual() {
     try {
-      if (!/^[0-9+\-*/%.() ]+$/.test(calcValue)) {
-        throw new Error("Input tidak valid");
-      }
-
-      const result = Function('"use strict"; return (' + calcValue + ')')();
-
-      if (!Number.isFinite(result)) {
-        throw new Error("Hasil tidak valid");
-      }
-
-      calcValue = String(Number(result.toFixed(8)));
-      updateDisplay();
-
+      document.execCommand("copy");
+      alert("Hasil berhasil disalin!");
     } catch (error) {
-      calcValue = "Error";
-      updateDisplay();
-
-      setTimeout(calcClear, 1000);
+      alert("Tidak dapat menyalin hasil.");
     }
+
+    textarea.remove();
+  }
+}
+
+// ==================================
+// KALKULATOR TAMBAHAN
+// ==================================
+
+let calcValue = "0";
+
+function updateDisplay() {
+  document.getElementById("calcDisplay").textContent = calcValue;
+}
+
+function calcInput(value) {
+  if (calcValue === "Error") calcValue = "0";
+
+  if (calcValue === "0" && /[0-9.]/.test(value)) {
+    calcValue = value;
+  } else {
+    calcValue += value;
   }
 
-  // ==============================
-  // INISIALISASI
-  // ==============================
+  updateDisplay();
+}
 
-  renderLogs();
+function calcClear() {
+  calcValue = "0";
+  updateDisplay();
+}
+
+function calcDelete() {
+  calcValue = calcValue.slice(0, -1) || "0";
+  updateDisplay();
+}
+
+function calcEqual() {
+  try {
+    if (!/^[0-9+\-*/%.() ]+$/.test(calcValue)) {
+      throw new Error("Input tidak valid");
+    }
+
+    const result = Function('"use strict"; return (' + calcValue + ')')();
+
+    if (!Number.isFinite(result)) {
+      throw new Error("Hasil tidak valid");
+    }
+
+    calcValue = String(Number(result.toFixed(8)));
+    updateDisplay();
+
+  } catch (error) {
+    calcValue = "Error";
+    updateDisplay();
+    setTimeout(calcClear, 1000);
+  }
+}
+
+// ==================================
+// SAAT HALAMAN DIBUKA
+// ==================================
+
+renderLogs();
+
 </script>
-
 </body>
-</html>
- 
+  </html>
+  
