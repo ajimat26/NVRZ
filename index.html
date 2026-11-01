@@ -1,56 +1,547 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K7N STORE - BUAT AKUN</title>
+<title>ProfitCalc - Kalkulator Keuntungan</title>
+
 <style>
-body{margin:0;font-family:Arial;background:#0f172a;color:#e5e7eb;display:flex;justify-content:center;align-items:center;height:100vh}
-.card{background:#1e293b;padding:25px;border-radius:12px;width:100%;max-width:350px;box-shadow:0 4px 10px rgba(0,0,0,0.3);box-sizing:border-box}
-h2{text-align:center;margin-top:0;color:#4f46e5}
-input{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;box-sizing:border-box;background:#334155;color:white;font-size:14px}
-button{width:100%;padding:12px;border:none;border-radius:8px;background:#4f46e5;color:white;cursor:pointer;font-weight:bold;font-size:14px;margin-top:10px}
-.token-box{background:#111827;padding:12px;border-radius:8px;margin-top:15px;word-break:break-all;border:1px dashed #4f46e5;display:none}
-.token-box p{margin:0 0 5px 0;font-size:12px;color:#94a3b8}
-.token-box code{color:#34d399;font-family:monospace;font-size:14px;font-weight:bold}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #080d19;
+    color: #eef4ff;
+    padding: 25px 15px;
+}
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    background: linear-gradient(135deg,#67b7ff,#61e3db);
+    color: #07111d;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.logo h2 {
+    font-size: 20px;
+}
+
+.logo p {
+    font-size: 12px;
+    color: #91a1bc;
+}
+
+.status {
+    color: #61e3db;
+    font-size: 12px;
+}
+
+.hero {
+    margin-bottom: 25px;
+}
+
+.hero small {
+    color: #61e3db;
+    letter-spacing: 2px;
+}
+
+.hero h1 {
+    font-size: 38px;
+    margin: 10px 0;
+}
+
+.hero h1 span {
+    color: #67b7ff;
+}
+
+.hero p {
+    color: #91a1bc;
+    line-height: 1.6;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.card {
+    background: #111a2d;
+    border: 1px solid #26334d;
+    border-radius: 18px;
+    padding: 22px;
+}
+
+.card h3 {
+    margin-bottom: 7px;
+}
+
+.description {
+    color: #91a1bc;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.field {
+    margin-bottom: 15px;
+}
+
+.field label {
+    display: block;
+    font-size: 13px;
+    color: #aebbd0;
+    margin-bottom: 7px;
+}
+
+.input-box {
+    display: flex;
+    background: #091222;
+    border: 1px solid #2b3b56;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.input-box span {
+    padding: 12px;
+    color: #61e3db;
+    border-right: 1px solid #263650;
+}
+
+input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 12px;
+    font-size: 15px;
+}
+
+.results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.metric {
+    background: #091422;
+    border: 1px solid #26334d;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.metric small {
+    color: #91a1bc;
+}
+
+.metric h2 {
+    margin-top: 7px;
+    font-size: 21px;
+}
+
+.profit {
+    background: #102a29;
+    border-color: #27644e;
+}
+
+.profit h2 {
+    color: #5ee0a0;
+}
+
+.wide {
+    grid-column: span 2;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: bold;
+}
+
+.reset {
+    background: linear-gradient(100deg,#67b7ff,#61e3db);
+    color: #07111d;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.copy {
+    background: #263650;
+    color: white;
+    width: 100%;
+    margin-top: 9px;
+}
+
+/* KALKULATOR */
+
+.display {
+    background: #091222;
+    border: 1px solid #26334d;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: right;
+    margin: 15px 0;
+    min-height: 85px;
+    overflow: hidden;
+}
+
+#calcDisplay {
+    font-size: 29px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.keys {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 8px;
+}
+
+.key {
+    background: #1a2941;
+    color: white;
+    font-size: 17px;
+    padding: 17px 5px;
+}
+
+.key:hover {
+    background: #304767;
+}
+
+.operator {
+    color: #61e3db;
+}
+
+.equal {
+    background: linear-gradient(120deg,#67b7ff,#61e3db);
+    color: #07111d;
+}
+
+.clear {
+    color: #ff7888;
+}
+
+footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #71839f;
+    font-size: 11px;
+}
+
+@media(max-width:750px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+}
+
+@media(max-width:380px) {
+    .results {
+        grid-template-columns: 1fr;
+    }
+
+    .wide {
+        grid-column: span 1;
+    }
+}
 </style>
 </head>
+
 <body>
 
-<div class="card">
-  <h2>Buat Akun K7N</h2>
-  <input id="username" placeholder="Masukkan Username Admin">
-  <input id="password" type="password" placeholder="Masukkan Kata Sandi">
-  <button onclick="generateToken()">Buat Kode Login</button>
+<div class="container">
 
-  <div class="token-box" id="tokenArea">
-    <p>🔑 Berikan kode akses ini kepada Admin Anda untuk Login:</p>
-    <code id="resultToken"></code>
-    <button onclick="salinToken()" style="background:#3b82f6; padding:6px; font-size:12px; margin-top:8px;">Salin Kode</button>
-  </div>
+<header>
+    <div class="logo">
+        <div class="logo-icon">$</div>
+        <div>
+            <h2>ProfitCalc</h2>
+            <p>Component Profit Calculator</p>
+        </div>
+    </div>
+    <div class="status">● LIVE CALCULATION</div>
+</header>
+
+<section class="hero">
+    <small>BUSINESS CALCULATOR</small>
+    <h1>Calculate Your <span>Profit.</span></h1>
+    <p>Hitung modal, omzet, dan keuntungan komponen dengan mudah.</p>
+</section>
+
+<div class="layout">
+
+<!-- KALKULATOR KEUNTUNGAN -->
+
+<section class="card">
+
+<h3>Kalkulator Keuntungan</h3>
+<p class="description">Masukkan jumlah komponen yang ingin dihitung.</p>
+
+<div class="field">
+    <label>Jumlah komponen</label>
+    <div class="input-box">
+        <input type="number" id="qty" value="100" min="0">
+    </div>
+</div>
+
+<div class="field">
+    <label>Modal per komponen</label>
+    <div class="input-box">
+        <span>$</span>
+        <input type="number" id="cost" value="0.60" min="0" step="0.01">
+    </div>
+</div>
+
+<div class="field">
+    <label>Harga jual per pemakaian</label>
+    <div class="input-box">
+        <span>$</span>
+        <input type="number" id="sell" value="1.05" min="0" step="0.01">
+    </div>
+</div>
+
+<div class="field">
+    <label>Biaya tambahan</label>
+    <div class="input-box">
+        <span>$</span>
+        <input type="number" id="extra" value="0" min="0" step="0.01">
+    </div>
+</div>
+
+<div class="results">
+
+    <div class="metric">
+        <small>Total Modal</small>
+        <h2 id="totalCost">$60.00</h2>
+    </div>
+
+    <div class="metric">
+        <small>Total Omzet</small>
+        <h2 id="revenue">$105.00</h2>
+    </div>
+
+    <div class="metric profit">
+        <small>Keuntungan Bersih</small>
+        <h2 id="profit">$45.00</h2>
+    </div>
+
+    <div class="metric">
+        <small>Untung per Komponen</small>
+        <h2 id="unitProfit">$0.45</h2>
+    </div>
+
+    <div class="metric wide">
+        <small>Margin Keuntungan</small>
+        <h2 id="margin">42.86%</h2>
+    </div>
+
+</div>
+
+<button class="reset" onclick="resetCalc()">Reset Default</button>
+<button class="copy" onclick="copyResult()">Salin Hasil</button>
+
+</section>
+
+<!-- KALKULATOR BIASA -->
+
+<section class="card">
+
+<h3>Kalkulator Tambahan</h3>
+<p class="description">Kalkulator matematika biasa.</p>
+
+<div class="display">
+    <div id="calcDisplay">0</div>
+</div>
+
+<div class="keys">
+
+<button class="key clear" onclick="press('AC')">AC</button>
+<button class="key" onclick="press('DEL')">⌫</button>
+<button class="key operator" onclick="press('%')">%</button>
+<button class="key operator" onclick="press('/')">÷</button>
+
+<button class="key" onclick="press('7')">7</button>
+<button class="key" onclick="press('8')">8</button>
+<button class="key" onclick="press('9')">9</button>
+<button class="key operator" onclick="press('*')">×</button>
+
+<button class="key" onclick="press('4')">4</button>
+<button class="key" onclick="press('5')">5</button>
+<button class="key" onclick="press('6')">6</button>
+<button class="key operator" onclick="press('-')">−</button>
+
+<button class="key" onclick="press('1')">1</button>
+<button class="key" onclick="press('2')">2</button>
+<button class="key" onclick="press('3')">3</button>
+<button class="key operator" onclick="press('+')">+</button>
+
+<button class="key" onclick="press('00')">00</button>
+<button class="key" onclick="press('0')">0</button>
+<button class="key" onclick="press('.')">.</button>
+<button class="key equal" onclick="press('=')">=</button>
+
+</div>
+</section>
+
+</div>
+
+<footer>
+    ProfitCalc © 2026 — All calculations in USD
+</footer>
+
 </div>
 
 <script>
-function generateToken() {
-  const user = document.getElementById("username").value.trim();
-  const pass = document.getElementById("password").value.trim();
 
-  if(!user || !pass) return alert("Username dan Sandi tidak boleh kosong!");
-
-  // Membuat Token Keamanan dari kombinasi nama dan sandi
-  const rawString = user + "||" + pass;
-  const encrypted = btoa(rawString); // Encode ke Base64 aman
-  const finalToken = "K7N-" + encrypted;
-
-  document.getElementById("resultToken").innerText = finalToken;
-  document.getElementById("tokenArea").style.display = "block";
+// FORMAT DOLLAR
+function money(number) {
+    return '$' + number.toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 }
 
-function salinToken() {
-  const tokenText = document.getElementById("resultToken").innerText;
-  navigator.clipboard.writeText(tokenText);
-  alert("Kode akses berhasil disalin!");
+// KALKULATOR KEUNTUNGAN
+function calculate() {
+
+    let qty = Math.max(0, Number(document.getElementById('qty').value) || 0);
+    let cost = Math.max(0, Number(document.getElementById('cost').value) || 0);
+    let sell = Math.max(0, Number(document.getElementById('sell').value) || 0);
+    let extra = Math.max(0, Number(document.getElementById('extra').value) || 0);
+
+    let totalCost = qty * cost + extra;
+    let revenue = qty * sell;
+    let profit = revenue - totalCost;
+    let unitProfit = qty > 0 ? profit / qty : 0;
+    let margin = revenue > 0 ? (profit / revenue) * 100 : 0;
+
+    document.getElementById('totalCost').textContent = money(totalCost);
+    document.getElementById('revenue').textContent = money(revenue);
+    document.getElementById('profit').textContent = money(profit);
+    document.getElementById('unitProfit').textContent = money(unitProfit);
+    document.getElementById('margin').textContent = margin.toFixed(2) + '%';
 }
+
+// UPDATE OTOMATIS
+['qty','cost','sell','extra'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calculate);
+});
+
+// RESET
+function resetCalc() {
+    document.getElementById('qty').value = 100;
+    document.getElementById('cost').value = 0.60;
+    document.getElementById('sell').value = 1.05;
+    document.getElementById('extra').value = 0;
+    calculate();
+}
+
+// SALIN HASIL
+function copyResult() {
+    let text = `
+PROFITCALC
+Jumlah: ${document.getElementById('qty').value}
+Modal: ${document.getElementById('totalCost').textContent}
+Omzet: ${document.getElementById('revenue').textContent}
+Keuntungan: ${document.getElementById('profit').textContent}
+Untung per komponen: ${document.getElementById('unitProfit').textContent}
+Margin: ${document.getElementById('margin').textContent}
+`;
+
+    navigator.clipboard.writeText(text)
+        .then(() => alert('Hasil berhasil disalin!'))
+        .catch(() => alert('Tidak bisa menyalin hasil.'));
+}
+
+// KALKULATOR BIASA
+let expression = '';
+let evaluated = false;
+
+function press(value) {
+
+    if (value === 'AC') {
+        expression = '';
+        evaluated = false;
+    }
+
+    else if (value === 'DEL') {
+        expression = expression.slice(0,-1);
+        evaluated = false;
+    }
+
+    else if (value === '=') {
+        try {
+            if (!expression || !/^[0-9+\-*/%. ]+$/.test(expression)) return;
+
+            let result = Function('"use strict"; return (' + expression + ')')();
+
+            if (!Number.isFinite(result)) throw new Error();
+
+            expression = String(
+                Math.round((result + Number.EPSILON) * 1e10) / 1e10
+            );
+
+            evaluated = true;
+
+        } catch {
+            expression = 'Error';
+            evaluated = true;
+        }
+    }
+
+    else {
+        if (expression === 'Error' || evaluated) {
+            if (/[0-9.]/.test(value)) expression = '';
+            evaluated = false;
+        }
+
+        if (value === '.') {
+            let last = expression.split(/[+\-*/%]/).pop();
+            if (last.includes('.')) return;
+            if (!last) expression += '0';
+        }
+
+        expression += value;
+    }
+
+    document.getElementById('calcDisplay').textContent = expression || '0';
+}
+
+// JALANKAN PERTAMA KALI
+calculate();
+
 </script>
+
 </body>
 </html>
