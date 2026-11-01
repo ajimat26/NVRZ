@@ -4,543 +4,448 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ProfitCalc - Kalkulator Keuntungan</title>
-
+<title>ProfitCalc</title>
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+:root {
+ --bg:#f5f3ee;--card:#fffefa;--text:#343b35;
+ --muted:#92978d;--green:#67816d;--light:#eaf0e8;
+ --border:#e9e7df;--red:#c77972;
 }
-
-body {
-    font-family: Arial, sans-serif;
-    background: #080d19;
-    color: #eef4ff;
-    padding: 25px 15px;
-}
-
-.container {
-    max-width: 1050px;
-    margin: auto;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 35px;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.logo-icon {
-    background: linear-gradient(135deg,#67b7ff,#61e3db);
-    color: #07111d;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 22px;
-}
-
-.logo h2 {
-    font-size: 20px;
-}
-
-.logo p {
-    font-size: 12px;
-    color: #91a1bc;
-}
-
-.status {
-    color: #61e3db;
-    font-size: 12px;
-}
-
-.hero {
-    margin-bottom: 25px;
-}
-
-.hero small {
-    color: #61e3db;
-    letter-spacing: 2px;
-}
-
-.hero h1 {
-    font-size: 38px;
-    margin: 10px 0;
-}
-
-.hero h1 span {
-    color: #67b7ff;
-}
-
-.hero p {
-    color: #91a1bc;
-    line-height: 1.6;
-}
-
-.layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.card {
-    background: #111a2d;
-    border: 1px solid #26334d;
-    border-radius: 18px;
-    padding: 22px;
-}
-
-.card h3 {
-    margin-bottom: 7px;
-}
-
-.description {
-    color: #91a1bc;
-    font-size: 12px;
-    margin-bottom: 20px;
-}
-
-.field {
-    margin-bottom: 15px;
-}
-
-.field label {
-    display: block;
-    font-size: 13px;
-    color: #aebbd0;
-    margin-bottom: 7px;
-}
-
-.input-box {
-    display: flex;
-    background: #091222;
-    border: 1px solid #2b3b56;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.input-box span {
-    padding: 12px;
-    color: #61e3db;
-    border-right: 1px solid #263650;
-}
-
-input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: white;
-    padding: 12px;
-    font-size: 15px;
-}
-
-.results {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.metric {
-    background: #091422;
-    border: 1px solid #26334d;
-    border-radius: 12px;
-    padding: 15px;
-}
-
-.metric small {
-    color: #91a1bc;
-}
-
-.metric h2 {
-    margin-top: 7px;
-    font-size: 21px;
-}
-
-.profit {
-    background: #102a29;
-    border-color: #27644e;
-}
-
-.profit h2 {
-    color: #5ee0a0;
-}
-
-.wide {
-    grid-column: span 2;
-}
-
-button {
-    border: none;
-    cursor: pointer;
-    border-radius: 10px;
-    padding: 12px;
-    font-weight: bold;
-}
-
-.reset {
-    background: linear-gradient(100deg,#67b7ff,#61e3db);
-    color: #07111d;
-    width: 100%;
-    margin-top: 15px;
-}
-
-.copy {
-    background: #263650;
-    color: white;
-    width: 100%;
-    margin-top: 9px;
-}
-
-/* KALKULATOR */
-
-.display {
-    background: #091222;
-    border: 1px solid #26334d;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: right;
-    margin: 15px 0;
-    min-height: 85px;
-    overflow: hidden;
-}
-
-#calcDisplay {
-    font-size: 29px;
-    font-weight: bold;
-    overflow-wrap: anywhere;
-}
-
-.keys {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 8px;
-}
-
-.key {
-    background: #1a2941;
-    color: white;
-    font-size: 17px;
-    padding: 17px 5px;
-}
-
-.key:hover {
-    background: #304767;
-}
-
-.operator {
-    color: #61e3db;
-}
-
-.equal {
-    background: linear-gradient(120deg,#67b7ff,#61e3db);
-    color: #07111d;
-}
-
-.clear {
-    color: #ff7888;
-}
-
-footer {
-    text-align: center;
-    margin-top: 25px;
-    color: #71839f;
-    font-size: 11px;
-}
-
-@media(max-width:750px) {
-    .layout {
-        grid-template-columns: 1fr;
-    }
-
-    .hero h1 {
-        font-size: 30px;
-    }
-}
-
-@media(max-width:380px) {
-    .results {
-        grid-template-columns: 1fr;
-    }
-
-    .wide {
-        grid-column: span 1;
-    }
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.container{max-width:1050px;margin:auto;padding:28px 17px 45px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:42px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:44px;height:44px;border-radius:14px;background:var(--green);color:white;display:grid;place-items:center;font-size:23px;font-weight:bold}
+.brand h2{font-family:'Plus Jakarta Sans';font-size:19px}
+.brand p{font-size:11px;color:var(--muted)}
+.status{background:var(--light);color:var(--green);padding:8px 12px;border-radius:30px;font-size:11px;font-weight:bold}
+.hero{margin-bottom:25px}
+.hero small{color:var(--green);letter-spacing:2px;font-weight:bold;font-size:11px}
+.hero h1{font-family:'Plus Jakarta Sans';font-size:clamp(30px,5vw,42px);margin:10px 0;letter-spacing:-1px}
+.hero h1 span{color:var(--green)}
+.hero p{color:var(--muted);font-size:13px;line-height:1.7}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:19px;padding:22px;box-shadow:0 8px 30px #36413108}
+.card h3{font-family:'Plus Jakarta Sans';font-size:16px;margin-bottom:6px}
+.desc{color:var(--muted);font-size:12px;margin-bottom:22px}
+.field{margin-bottom:15px}
+.field label{display:block;color:#72796f;font-size:12px;font-weight:600;margin-bottom:7px}
+.input-wrap{display:flex;align-items:center;background:#faf9f5;border:1px solid var(--border);border-radius:11px}
+.input-wrap:focus-within{border-color:var(--green)}
+.input-wrap span{padding-left:13px;color:var(--green);font-weight:bold}
+.input-wrap input{width:100%;padding:12px;border:none;outline:none;background:transparent;color:var(--text);min-width:0}
+.results{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.metric{background:#f7f6f1;padding:15px;border-radius:13px;min-width:0}
+.metric small{color:var(--muted);font-size:11px}
+.metric h2{font-family:'Plus Jakarta Sans';font-size:20px;margin-top:7px;overflow-wrap:anywhere}
+.metric.profit{background:var(--light)}
+.metric.profit h2{color:var(--green)}
+.wide{grid-column:span 2}
+.btn{border:0;border-radius:11px;padding:13px;font-size:13px;font-weight:bold}
+.primary{background:var(--green);color:white;width:100%;margin-top:17px}
+.secondary{background:#f0eee8;color:#686e64;width:100%;margin-top:9px}
+.danger{background:#f8eae8;color:var(--red);padding:9px 12px;font-size:11px}
+.calc-display{background:#f7f6f1;padding:18px;border-radius:13px;text-align:right;min-height:85px;margin:15px 0;overflow-wrap:anywhere}
+.calc-display small{color:var(--muted);font-size:11px}
+.calc-display h2{font-size:28px;margin-top:5px}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.key{background:#f1f0e9;border:0;border-radius:10px;padding:15px 5px;font-size:16px;font-weight:bold;color:var(--text)}
+.key.operator{background:var(--light);color:var(--green)}
+.key.clear{color:var(--red)}
+.key.equal{background:var(--green);color:white}
+.logs{margin-top:19px}
+.logs-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:17px}
+.count{background:var(--light);color:var(--green);padding:6px 11px;border-radius:30px;font-size:11px;font-weight:bold}
+.log-item{background:#faf9f5;border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:10px}
+.log-top{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px}
+.log-top h4{font-size:13px}
+.log-top small{color:var(--muted);font-size:10px;text-align:right}
+.log-details{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.log-details div{background:white;border-radius:8px;padding:9px}
+.log-details small{display:block;color:var(--muted);font-size:10px}
+.log-details strong{display:block;font-size:13px;margin-top:4px;overflow-wrap:anywhere}
+.log-profit{color:var(--green)}
+.empty{text-align:center;padding:30px;color:var(--muted);font-size:12px}
+.modal{display:none;position:fixed;inset:0;z-index:10;background:#222a2266;backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:15px}
+.modal.show{display:flex}
+.modal-box{background:var(--card);border-radius:19px;padding:23px;width:100%;max-width:390px;box-shadow:0 20px 70px #0002}
+.modal-box h3{margin-bottom:6px}
+.modal-box>p{font-size:12px;color:var(--muted);margin-bottom:17px}
+.confirm-row{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);font-size:13px}
+.confirm-row span{color:var(--muted)}
+.confirm-total{background:var(--light);padding:14px;border-radius:12px;margin-top:14px}
+.confirm-total small{color:var(--green)}
+.confirm-total h2{color:var(--green);margin-top:5px}
+.modal-actions{display:flex;gap:9px;margin-top:17px}
+.modal-actions button{flex:1}
+footer{text-align:center;color:var(--muted);font-size:11px;padding-top:28px}
+@media(max-width:750px){.grid{grid-template-columns:1fr}.container{padding:22px 14px}.card{padding:18px}.hero h1{font-size:32px}}
+@media(max-width:380px){.metric h2{font-size:17px}}
 </style>
 </head>
-
 <body>
-
 <div class="container">
 
 <header>
-    <div class="logo">
-        <div class="logo-icon">$</div>
-        <div>
-            <h2>ProfitCalc</h2>
-            <p>Component Profit Calculator</p>
-        </div>
-    </div>
-    <div class="status">● LIVE CALCULATION</div>
+ <div class="brand">
+  <div class="brand-icon">$</div>
+  <div><h2>ProfitCalc</h2><p>Simple business calculator</p></div>
+ </div>
+ <div class="status">● Ready</div>
 </header>
 
 <section class="hero">
-    <small>BUSINESS CALCULATOR</small>
-    <h1>Calculate Your <span>Profit.</span></h1>
-    <p>Hitung modal, omzet, dan keuntungan komponen dengan mudah.</p>
+ <small>YOUR FINANCE WORKSPACE</small>
+ <h1>Manage your <span>profit.</span></h1>
+ <p>Kelola modal, hitung keuntungan, dan pantau riwayat perhitungan dalam satu tempat.</p>
 </section>
 
-<div class="layout">
-
-<!-- KALKULATOR KEUNTUNGAN -->
+<div class="grid">
 
 <section class="card">
+ <h3>Profit Calculator</h3>
+ <p class="desc">Masukkan data komponen untuk menghitung keuntungan.</p>
 
-<h3>Kalkulator Keuntungan</h3>
-<p class="description">Masukkan jumlah komponen yang ingin dihitung.</p>
+ <div class="field">
+  <label>Jumlah komponen</label>
+  <div class="input-wrap"><input id="qty" type="number" min="0" step="1" value="100"></div>
+ </div>
 
-<div class="field">
-    <label>Jumlah komponen</label>
-    <div class="input-box">
-        <input type="number" id="qty" value="100" min="0">
-    </div>
-</div>
+ <div class="field">
+  <label>Modal per komponen</label>
+  <div class="input-wrap"><span>$</span><input id="cost" type="number" min="0" step="0.01" value="0.60"></div>
+ </div>
 
-<div class="field">
-    <label>Modal per komponen</label>
-    <div class="input-box">
-        <span>$</span>
-        <input type="number" id="cost" value="0.60" min="0" step="0.01">
-    </div>
-</div>
+ <div class="field">
+  <label>Harga jual per pemakaian</label>
+  <div class="input-wrap"><span>$</span><input id="sell" type="number" min="0" step="0.01" value="1.05"></div>
+ </div>
 
-<div class="field">
-    <label>Harga jual per pemakaian</label>
-    <div class="input-box">
-        <span>$</span>
-        <input type="number" id="sell" value="1.05" min="0" step="0.01">
-    </div>
-</div>
+ <div class="field">
+  <label>Biaya tambahan</label>
+  <div class="input-wrap"><span>$</span><input id="extra" type="number" min="0" step="0.01" value="0"></div>
+ </div>
 
-<div class="field">
-    <label>Biaya tambahan</label>
-    <div class="input-box">
-        <span>$</span>
-        <input type="number" id="extra" value="0" min="0" step="0.01">
-    </div>
-</div>
+ <div class="results">
+  <div class="metric"><small>Total Modal</small><h2 id="totalCost">$60.00</h2></div>
+  <div class="metric"><small>Total Omzet</small><h2 id="revenue">$105.00</h2></div>
+  <div class="metric profit"><small>Keuntungan Bersih</small><h2 id="profit">$45.00</h2></div>
+  <div class="metric"><small>Untung per Komponen</small><h2 id="unitProfit">$0.45</h2></div>
+  <div class="metric wide"><small>Margin Keuntungan</small><h2 id="margin">42.86%</h2></div>
+ </div>
 
-<div class="results">
-
-    <div class="metric">
-        <small>Total Modal</small>
-        <h2 id="totalCost">$60.00</h2>
-    </div>
-
-    <div class="metric">
-        <small>Total Omzet</small>
-        <h2 id="revenue">$105.00</h2>
-    </div>
-
-    <div class="metric profit">
-        <small>Keuntungan Bersih</small>
-        <h2 id="profit">$45.00</h2>
-    </div>
-
-    <div class="metric">
-        <small>Untung per Komponen</small>
-        <h2 id="unitProfit">$0.45</h2>
-    </div>
-
-    <div class="metric wide">
-        <small>Margin Keuntungan</small>
-        <h2 id="margin">42.86%</h2>
-    </div>
-
-</div>
-
-<button class="reset" onclick="resetCalc()">Reset Default</button>
-<button class="copy" onclick="copyResult()">Salin Hasil</button>
-
+ <button class="btn primary" onclick="openConfirmation()">Hitung & Konfirmasi</button>
+ <button class="btn secondary" onclick="resetCalc()">Reset Kalkulator</button>
+ <button class="btn secondary" onclick="copyResult()">Salin Hasil</button>
 </section>
-
-<!-- KALKULATOR BIASA -->
 
 <section class="card">
+ <h3>Quick Calculator</h3>
+ <p class="desc">Kalkulator matematika sederhana.</p>
 
-<h3>Kalkulator Tambahan</h3>
-<p class="description">Kalkulator matematika biasa.</p>
+ <div class="calc-display">
+  <small>CALCULATOR</small>
+  <h2 id="calcDisplay">0</h2>
+ </div>
 
-<div class="display">
-    <div id="calcDisplay">0</div>
+ <div class="keys">
+  <button class="key clear" onclick="press('AC')">AC</button>
+  <button class="key" onclick="press('DEL')">⌫</button>
+  <button class="key operator" onclick="press('%')">%</button>
+  <button class="key operator" onclick="press('/')">÷</button>
+  <button class="key" onclick="press('7')">7</button>
+  <button class="key" onclick="press('8')">8</button>
+  <button class="key" onclick="press('9')">9</button>
+  <button class="key operator" onclick="press('*')">×</button>
+  <button class="key" onclick="press('4')">4</button>
+  <button class="key" onclick="press('5')">5</button>
+  <button class="key" onclick="press('6')">6</button>
+  <button class="key operator" onclick="press('-')">−</button>
+  <button class="key" onclick="press('1')">1</button>
+  <button class="key" onclick="press('2')">2</button>
+  <button class="key" onclick="press('3')">3</button>
+  <button class="key operator" onclick="press('+')">+</button>
+  <button class="key" onclick="press('00')">00</button>
+  <button class="key" onclick="press('0')">0</button>
+  <button class="key" onclick="press('.')">.</button>
+  <button class="key equal" onclick="press('=')">=</button>
+ </div>
+</section>
 </div>
 
-<div class="keys">
-
-<button class="key clear" onclick="press('AC')">AC</button>
-<button class="key" onclick="press('DEL')">⌫</button>
-<button class="key operator" onclick="press('%')">%</button>
-<button class="key operator" onclick="press('/')">÷</button>
-
-<button class="key" onclick="press('7')">7</button>
-<button class="key" onclick="press('8')">8</button>
-<button class="key" onclick="press('9')">9</button>
-<button class="key operator" onclick="press('*')">×</button>
-
-<button class="key" onclick="press('4')">4</button>
-<button class="key" onclick="press('5')">5</button>
-<button class="key" onclick="press('6')">6</button>
-<button class="key operator" onclick="press('-')">−</button>
-
-<button class="key" onclick="press('1')">1</button>
-<button class="key" onclick="press('2')">2</button>
-<button class="key" onclick="press('3')">3</button>
-<button class="key operator" onclick="press('+')">+</button>
-
-<button class="key" onclick="press('00')">00</button>
-<button class="key" onclick="press('0')">0</button>
-<button class="key" onclick="press('.')">.</button>
-<button class="key equal" onclick="press('=')">=</button>
-
-</div>
+<section class="card logs">
+ <div class="logs-heading">
+  <div>
+   <h3>Calculation Logs</h3>
+   <p class="desc" style="margin:5px 0 0">Riwayat perhitungan yang dikonfirmasi.</p>
+  </div>
+  <span class="count" id="logCount">0 Logs</span>
+ </div>
+ <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+  <button class="btn danger" onclick="clearLogs()">Hapus Semua</button>
+ </div>
+ <div id="logs"></div>
 </section>
 
+<footer>ProfitCalc © 2026 · Made for simple business management</footer>
 </div>
 
-<footer>
-    ProfitCalc © 2026 — All calculations in USD
-</footer>
+<!-- MODAL KONFIRMASI -->
+<div class="modal" id="confirmModal">
+ <div class="modal-box">
+  <h3>Konfirmasi Perhitungan</h3>
+  <p>Pastikan semua data modal dan penjualan sudah benar.</p>
 
+  <div class="confirm-row"><span>Jumlah komponen</span><strong id="mQty">100</strong></div>
+  <div class="confirm-row"><span>Modal per komponen</span><strong id="mCost">$0.60</strong></div>
+  <div class="confirm-row"><span>Harga jual</span><strong id="mSell">$1.05</strong></div>
+  <div class="confirm-row"><span>Total modal + biaya</span><strong id="mTotal">$60.00</strong></div>
+  <div class="confirm-row"><span>Total omzet</span><strong id="mRevenue">$105.00</strong></div>
+
+  <div class="confirm-total">
+   <small>KEUNTUNGAN BERSIH</small>
+   <h2 id="mProfit">$45.00</h2>
+  </div>
+
+  <div class="modal-actions">
+   <button class="btn secondary" onclick="closeConfirmation()">Batal</button>
+   <button class="btn primary" style="margin:0" onclick="confirmCalculation()">Ya, Simpan</button>
+  </div>
+ </div>
 </div>
 
 <script>
+const $ = id => document.getElementById(id);
 
-// FORMAT DOLLAR
-function money(number) {
-    return '$' + number.toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
-}
-
-// KALKULATOR KEUNTUNGAN
-function calculate() {
-
-    let qty = Math.max(0, Number(document.getElementById('qty').value) || 0);
-    let cost = Math.max(0, Number(document.getElementById('cost').value) || 0);
-    let sell = Math.max(0, Number(document.getElementById('sell').value) || 0);
-    let extra = Math.max(0, Number(document.getElementById('extra').value) || 0);
-
-    let totalCost = qty * cost + extra;
-    let revenue = qty * sell;
-    let profit = revenue - totalCost;
-    let unitProfit = qty > 0 ? profit / qty : 0;
-    let margin = revenue > 0 ? (profit / revenue) * 100 : 0;
-
-    document.getElementById('totalCost').textContent = money(totalCost);
-    document.getElementById('revenue').textContent = money(revenue);
-    document.getElementById('profit').textContent = money(profit);
-    document.getElementById('unitProfit').textContent = money(unitProfit);
-    document.getElementById('margin').textContent = margin.toFixed(2) + '%';
-}
-
-// UPDATE OTOMATIS
-['qty','cost','sell','extra'].forEach(id => {
-    document.getElementById(id).addEventListener('input', calculate);
+const money = n => '$' + n.toLocaleString('en-US',{
+ minimumFractionDigits:2,
+ maximumFractionDigits:2
 });
 
-// RESET
-function resetCalc() {
-    document.getElementById('qty').value = 100;
-    document.getElementById('cost').value = 0.60;
-    document.getElementById('sell').value = 1.05;
-    document.getElementById('extra').value = 0;
-    calculate();
+function getValues(){
+ return {
+  qty:Number($('qty').value),
+  cost:Number($('cost').value),
+  sell:Number($('sell').value),
+  extra:Number($('extra').value)
+ };
 }
 
-// SALIN HASIL
-function copyResult() {
-    let text = `
-PROFITCALC
-Jumlah: ${document.getElementById('qty').value}
-Modal: ${document.getElementById('totalCost').textContent}
-Omzet: ${document.getElementById('revenue').textContent}
-Keuntungan: ${document.getElementById('profit').textContent}
-Untung per komponen: ${document.getElementById('unitProfit').textContent}
-Margin: ${document.getElementById('margin').textContent}
-`;
+function calculate(){
+ const v=getValues();
 
-    navigator.clipboard.writeText(text)
-        .then(() => alert('Hasil berhasil disalin!'))
-        .catch(() => alert('Tidak bisa menyalin hasil.'));
+ const totalCost=v.qty*v.cost+v.extra;
+ const revenue=v.qty*v.sell;
+ const profit=revenue-totalCost;
+ const unitProfit=v.qty>0?profit/v.qty:0;
+ const margin=revenue>0?profit/revenue*100:0;
+
+ $('totalCost').textContent=money(totalCost);
+ $('revenue').textContent=money(revenue);
+ $('profit').textContent=money(profit);
+ $('unitProfit').textContent=money(unitProfit);
+ $('margin').textContent=margin.toFixed(2)+'%';
 }
 
-// KALKULATOR BIASA
-let expression = '';
-let evaluated = false;
+['qty','cost','sell','extra'].forEach(id=>{
+ $(id).addEventListener('input',calculate);
+});
 
-function press(value) {
-
-    if (value === 'AC') {
-        expression = '';
-        evaluated = false;
-    }
-
-    else if (value === 'DEL') {
-        expression = expression.slice(0,-1);
-        evaluated = false;
-    }
-
-    else if (value === '=') {
-        try {
-            if (!expression || !/^[0-9+\-*/%. ]+$/.test(expression)) return;
-
-            let result = Function('"use strict"; return (' + expression + ')')();
-
-            if (!Number.isFinite(result)) throw new Error();
-
-            expression = String(
-                Math.round((result + Number.EPSILON) * 1e10) / 1e10
-            );
-
-            evaluated = true;
-
-        } catch {
-            expression = 'Error';
-            evaluated = true;
-        }
-    }
-
-    else {
-        if (expression === 'Error' || evaluated) {
-            if (/[0-9.]/.test(value)) expression = '';
-            evaluated = false;
-        }
-
-        if (value === '.') {
-            let last = expression.split(/[+\-*/%]/).pop();
-            if (last.includes('.')) return;
-            if (!last) expression += '0';
-        }
-
-        expression += value;
-    }
-
-    document.getElementById('calcDisplay').textContent = expression || '0';
+function resetCalc(){
+ $('qty').value=100;
+ $('cost').value='0.60';
+ $('sell').value='1.05';
+ $('extra').value=0;
+ calculate();
 }
 
-// JALANKAN PERTAMA KALI
+function openConfirmation(){
+ const v=getValues();
+
+ if(!Number.isInteger(v.qty)||v.qty<=0||
+ ![v.cost,v.sell,v.extra].every(Number.isFinite)||
+ v.cost<0||v.sell<0||v.extra<0||
+ $('cost').value===''||$('sell').value===''||$('extra').value===''){
+  alert('Periksa kembali semua input. Jumlah harus bilangan bulat positif.');
+  return;
+ }
+
+ const total=v.qty*v.cost+v.extra;
+ const revenue=v.qty*v.sell;
+ const profit=revenue-total;
+
+ $('mQty').textContent=v.qty+' komponen';
+ $('mCost').textContent=money(v.cost);
+ $('mSell').textContent=money(v.sell);
+ $('mTotal').textContent=money(total);
+ $('mRevenue').textContent=money(revenue);
+ $('mProfit').textContent=money(profit);
+
+ $('confirmModal').classList.add('show');
+}
+
+function closeConfirmation(){
+ $('confirmModal').classList.remove('show');
+}
+
+$('confirmModal').addEventListener('click',e=>{
+ if(e.target===$('confirmModal'))closeConfirmation();
+});
+
+// LOGS
+let logs=[];
+
+try{
+ const saved=JSON.parse(localStorage.getItem('profitLogs')||'[]');
+ if(Array.isArray(saved))logs=saved;
+}catch(e){logs=[];}
+
+function saveLogs(){
+ localStorage.setItem('profitLogs',JSON.stringify(logs));
+}
+
+function confirmCalculation(){
+ const v=getValues();
+ const total=v.qty*v.cost+v.extra;
+ const revenue=v.qty*v.sell;
+ const profit=revenue-total;
+
+ logs.unshift({
+  id:Date.now(),
+  date:new Date().toLocaleString('id-ID'),
+  qty:v.qty,
+  cost:v.cost,
+  sell:v.sell,
+  extra:v.extra,
+  total:total,
+  revenue:revenue,
+  profit:profit
+ });
+
+ saveLogs();
+ renderLogs();
+
+ closeConfirmation();
+ resetCalc();
+
+ alert('Perhitungan berhasil disimpan ke Logs!');
+}
+
+function renderLogs(){
+ $('logCount').textContent=logs.length+' Logs';
+
+ if(logs.length===0){
+  $('logs').innerHTML=`
+   <div class="empty">
+    <span>☁</span>
+    Belum ada riwayat perhitungan.
+   </div>`;
+  return;
+ }
+
+ $('logs').innerHTML=logs.map((log,index)=>`
+  <div class="log-item">
+   <div class="log-top">
+    <h4>Calculation #${logs.length-index}</h4>
+    <small>${escapeHTML(log.date)}</small>
+   </div>
+   <div class="log-details">
+    <div><small>Jumlah komponen</small><strong>${log.qty}</strong></div>
+    <div><small>Total modal</small><strong>${money(log.total)}</strong></div>
+    <div><small>Total omzet</small><strong>${money(log.revenue)}</strong></div>
+    <div><small>Harga jual/unit</small><strong>${money(log.sell)}</strong></div>
+    <div style="grid-column:span 2">
+     <small>Keuntungan bersih</small>
+     <strong class="log-profit">${money(log.profit)}</strong>
+    </div>
+   </div>
+  </div>
+ `).join('');
+}
+
+function escapeHTML(str){
+ return String(str).replace(/[&<>"']/g,c=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+ }[c]));
+}
+
+function clearLogs(){
+ if(!confirm('Hapus seluruh riwayat perhitungan?'))return;
+ logs=[];
+ saveLogs();
+ renderLogs();
+}
+
+function copyResult(){
+ const v=getValues();
+ const text=`PROFITCALC
+Jumlah: ${v.qty}
+Modal: ${money(v.qty*v.cost+v.extra)}
+Omzet: ${money(v.qty*v.sell)}
+Keuntungan: ${money(v.qty*v.sell-v.qty*v.cost-v.extra)}`;
+ if(navigator.clipboard?.writeText){
+  navigator.clipboard.writeText(text)
+   .then(()=>alert('Hasil berhasil disalin!'))
+   .catch(()=>alert('Gagal menyalin hasil.'));
+ }else{
+  alert('Fitur salin tidak tersedia di browser ini.');
+ }
+}
+
+// QUICK CALCULATOR
+let expression='';
+let evaluated=false;
+
+function press(value){
+ if(value==='AC'){
+  expression='';
+  evaluated=false;
+ }else if(value==='DEL'){
+  expression=expression.slice(0,-1);
+  evaluated=false;
+ }else if(value==='='){
+  try{
+   if(!expression||!/^[0-9+\-*/%. ]+$/.test(expression))return;
+   const result=Function('"use strict";return ('+expression+')')();
+   if(!Number.isFinite(result))throw Error();
+   expression=String(Math.round((result+Number.EPSILON)*1e10)/1e10);
+   evaluated=true;
+  }catch(e){
+   expression='Error';
+   evaluated=true;
+  }
+ }else{
+  if(expression==='Error'||evaluated){
+   if(/[0-9.]/.test(value))expression='';
+   evaluated=false;
+  }
+
+  if(value==='.'){
+   const last=expression.split(/[+\-*/%]/).pop();
+   if(last.includes('.'))return;
+   if(!last)expression+='0';
+  }
+
+  expression+=value;
+ }
+
+ $('calcDisplay').textContent=expression||'0';
+}
+
+document.addEventListener('keydown',e=>{
+ if(/^[0-9.+\-*/%]$/.test(e.key))press(e.key);
+ else if(e.key==='Enter')press('=');
+ else if(e.key==='Backspace')press('DEL');
+ else if(e.key==='Escape')press('AC');
+});
+
 calculate();
-
+renderLogs();
 </script>
 
 </body>
